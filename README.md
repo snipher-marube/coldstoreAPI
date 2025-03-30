@@ -64,8 +64,8 @@ ColdStore is a Django REST Framework API designed to connect farmers with cold s
 
 1. **Clone the Repository**
    ```bash
-   git clone https://github.com/yourusername/coldstore-api.git
-   cd coldstore-api
+   git clone https://github.com/snipher-marube/coldstoreAPI.git
+   cd coldstoreAPI
    ```
 
 2. **Create Virtual Environment**
