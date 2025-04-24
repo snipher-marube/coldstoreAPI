@@ -1,7 +1,7 @@
 from django.urls import path
 from knox import views as knox_views
 from rest_framework.throttling import AnonRateThrottle, UserRateThrottle
-from .views import RegisterAPI, LoginAPI
+from .views import RegisterAPI, LoginAPI, FacebookLogin, GoogleLogin
 
 # Custom throttling classes
 class BurstRateThrottle(UserRateThrottle):
@@ -23,6 +23,19 @@ urlpatterns = [
             throttle_classes=[BurstRateThrottle]
         ), 
         name='auth-login'),
+    
+    # Social auth endpoints
+    path('api/v1/auth/facebook/', 
+        FacebookLogin.as_view(
+            throttle_classes=[BurstRateThrottle]
+        ), 
+        name='fb_login'),
+    
+    path('api/v1/auth/google/', 
+        GoogleLogin.as_view(
+            throttle_classes=[BurstRateThrottle]
+        ), 
+        name='google_login'),
     
     # Session management
     path('api/v1/auth/logout/', 

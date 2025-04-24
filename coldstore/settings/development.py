@@ -2,7 +2,7 @@ from .base import *
 
 DEBUG = True
 
-ALLOWED_HOSTS =['127.0.0.1']
+ALLOWED_HOSTS =['127.0.0.1', 'localhost']
 DOMAINS = ['localhost', '127.0.0.1']
 SECURE_SSL_REDIRECT = False
 CSRF_TRUSTED_ORIGINS = ['http://localhost:8000', 'http://127.0.0.1:8000']

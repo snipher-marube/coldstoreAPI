@@ -6,7 +6,6 @@ from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from rest_framework import permissions
 
-# Swagger/OpenAPI Documentation
 schema_view = get_schema_view(
     openapi.Info(
         title="ColdStore API",
@@ -15,27 +14,20 @@ schema_view = get_schema_view(
         contact=openapi.Contact(email="dev@coldstore.com"),
         public=True,
     ),
-        permission_classes=[permissions.AllowAny],
-    )
+    permission_classes=[permissions.AllowAny],
+)
 
 urlpatterns = [
-    # Admin
     path('admin/', admin.site.urls),
-    
-    # API Documentation
-    path('api/v1/docs/', 
-        schema_view.with_ui('swagger', cache_timeout=0), 
-        name='api-docs'),
-    
-    # Health Check
+    path('api/v1/docs/', schema_view.with_ui('swagger', cache_timeout=0), name='api-docs'),
     path('api/v1/health/', include('health_check.urls')),
-    
-    # Authentication
-    path('', include(('users.urls', 'users'), namespace='auth')),
-    
-    # API Framework (Development Only)
+    path('api/v1/', include(('users.urls', 'users'), namespace='auth')),
     path('api/v1/auth/drf/', include('rest_framework.urls', namespace='rest_framework')),
     
+    # Keep these for allauth/dj-rest-auth compatibility
+    path('api/v1/auth/', include('dj_rest_auth.urls')),
+    path('api/v1/auth/registration/', include('dj_rest_auth.registration.urls')),
+    path('api/v1/auth/social/', include('allauth.socialaccount.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:
