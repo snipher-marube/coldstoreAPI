@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.github',
     'dj_rest_auth',
     'dj_rest_auth.registration',
+    'coldrooms',
 ]
 
 
@@ -178,7 +179,5 @@ REST_AUTH = {
 }
 
 # allauth settings
-ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_LOGIN_METHODS = {'email'}
 ACCOUNT_EMAIL_VERIFICATION = 'optional'  # or 'mandatory'
