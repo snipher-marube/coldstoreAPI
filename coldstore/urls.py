@@ -21,7 +21,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/v1/docs/', schema_view.with_ui('swagger', cache_timeout=0), name='api-docs'),
     path('api/v1/health/', include('health_check.urls')),
-    path('api/v1/', include(('users.urls', 'users'), namespace='auth')),
+    path('', include(('users.urls', 'users'), namespace='auth')),
     path('api/v1/auth/drf/', include('rest_framework.urls', namespace='rest_framework')),
     
     # Keep these for allauth/dj-rest-auth compatibility

@@ -30,13 +30,9 @@ urlpatterns = [
             throttle_classes=[BurstRateThrottle]
         ), 
         name='fb_login'),
+   
     
-    path('api/v1/auth/google/', 
-        GoogleLogin.as_view(
-            throttle_classes=[BurstRateThrottle]
-        ), 
-        name='google_login'),
-    
+    path('api/v1/auth/google/', GoogleLogin.as_view(), name='google_login'),
     # Session management
     path('api/v1/auth/logout/', 
         knox_views.LogoutView.as_view(
