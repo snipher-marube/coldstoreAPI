@@ -1,3 +1,6 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import ColdRoom, ColdRoomImage
+
+admin.site.register(ColdRoom)
+admin.site.register(ColdRoomImage)
