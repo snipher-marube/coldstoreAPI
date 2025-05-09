@@ -5,13 +5,14 @@ on: [push]
 jobs:
   postman-tests:
     runs-on: ubuntu-latest
+
     services:
       postgres:
-        image: postgres:16  # Matches common production versions
+        image: postgres:16
         env:
-          POSTGRES_DB: agrotech_db  # From .env
-          POSTGRES_USER: snipher    # From .env
-          POSTGRES_PASSWORD: snipher8431  # From .env
+          POSTGRES_DB: agrotech_db
+          POSTGRES_USER: snipher
+          POSTGRES_PASSWORD: snipher8431
         ports:
           - 5432:5432
         options: >-
@@ -27,7 +28,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
-        python-version: 3.12  # Recommended stable version
+        python-version: 3.12
 
     - name: Install dependencies
       run: |
@@ -44,25 +45,33 @@ jobs:
       run: |
         python manage.py migrate
 
-    - name: Install Newman
-      run: npm install -g newman
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: 18
 
-    - name: Run Server & Tests
+    - name: Cache Node modules
+      uses: actions/cache@v3
+      with:
+        path: ~/.npm
+        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-node-
+
+    - name: Install Newman
+      run: npm install -g newman@5.3.2
+
+    - name: Run Server & Postman Tests
       env:
-        SECRET_KEY: ${{ secrets.SECRET_KEY }}  # From .env
+        SECRET_KEY: ${{ secrets.SECRET_KEY }}
         DATABASE_NAME: agrotech_db
         DATABASE_USER: snipher
         DATABASE_PASSWORD: snipher8431
         DATABASE_HOST: localhost
         DATABASE_PORT: 5432
       run: |
-        # Start server in background
         python manage.py runserver 127.0.0.1:8000 &
-        
-        # Wait for server to start
         sleep 15
-        
-        # Run Postman tests
         newman run postman/coldstore-api.postman_collection.json \
           -e postman/postman-environment.json \
-          --reporters cli,json \
+          --reporters cli,json
