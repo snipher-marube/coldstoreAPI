@@ -5,10 +5,9 @@ on: [push]
 jobs:
   postman-tests:
     runs-on: ubuntu-latest
-
     services:
       postgres:
-        image: postgres:16
+        image: postgis/postgis:16-3.4  # PostGIS-enabled image
         env:
           POSTGRES_DB: agrotech_db
           POSTGRES_USER: snipher
@@ -25,15 +24,38 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
 
+    - name: Install system dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y \
+          gdal-bin \
+          libgdal-dev \
+          postgresql-client \
+          libgeos-dev \
+          libproj-dev
+
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
         python-version: 3.12
 
-    - name: Install dependencies
+    - name: Install Python dependencies
+      env:
+        GDAL_VERSION: $(gdal-config --version)
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
+        pip install GDAL==$(gdal-config --version)
+
+    - name: Create PostGIS extension
+      env:
+        PGHOST: localhost
+        PGPORT: 5432
+        PGDATABASE: agrotech_db
+        PGUSER: snipher
+        PGPASSWORD: snipher8431
+      run: |
+        psql -c "CREATE EXTENSION IF NOT EXISTS postgis;"
 
     - name: Run migrations
       env:
@@ -45,23 +67,10 @@ jobs:
       run: |
         python manage.py migrate
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: 18
-
-    - name: Cache Node modules
-      uses: actions/cache@v3
-      with:
-        path: ~/.npm
-        key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-        restore-keys: |
-          ${{ runner.os }}-node-
-
     - name: Install Newman
-      run: npm install -g newman@5.3.2
+      run: npm install -g newman
 
-    - name: Run Server & Postman Tests
+    - name: Run Server & Tests
       env:
         SECRET_KEY: ${{ secrets.SECRET_KEY }}
         DATABASE_NAME: agrotech_db
@@ -70,8 +79,27 @@ jobs:
         DATABASE_HOST: localhost
         DATABASE_PORT: 5432
       run: |
+        # Start server in background
         python manage.py runserver 127.0.0.1:8000 &
+        
+        # Wait for server to start
         sleep 15
+        
+        # Run Postman tests
         newman run postman/coldstore-api.postman_collection.json \
           -e postman/postman-environment.json \
-          --reporters cli,json
+          --reporters cli,json \
+          --reporter-json-export newman-results.json
+        
+        # Fail build on test failures
+        if [ $? -ne 0 ]; then
+          echo "Tests failed!"
+          exit 1
+        fi
+
+    - name: Upload Test Results
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: newman-results
+        path: newman-results.json
