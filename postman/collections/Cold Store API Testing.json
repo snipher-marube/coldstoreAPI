@@ -1,0 +1,197 @@
+{
+	"info": {
+		"_postman_id": "ce9d577d-5506-47b4-b8f1-edc43aebde25",
+		"name": "Cold Store API Testing",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_uid": "17379090-ce9d577d-5506-47b4-b8f1-edc43aebde25"
+	},
+	"item": [
+		{
+			"name": "http://127.0.0.1:8000/api/v1/auth/login/",
+			"id": "ad58939f-5387-4998-ab02-520f80192e97",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": [
+						{
+							"key": "addTokenTo",
+							"value": "header",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "password",
+							"value": "snipher8431",
+							"type": "text",
+							"uuid": "7204d2db-5089-4c1f-bdf5-9122c3c0369b"
+						},
+						{
+							"key": "email",
+							"value": "benshapiro@gmail.com",
+							"type": "text",
+							"uuid": "1d486a97-e206-4f90-9f42-ef2e1d8b413e"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/v1/auth/login/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"login",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://127.0.0.1:8000/api/v1/auth/logout-all/",
+			"id": "98662dab-472e-4575-96ad-4c17b378c00f",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Token 5ea9429d9c99de1fa9674b7268b4cd7afb4657ff78a578974ea047823a6156d1",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "email",
+							"value": "banshapiro@gmail.com",
+							"type": "text",
+							"uuid": "a455c351-cd9e-489c-87ce-4897c8e44ba1"
+						},
+						{
+							"key": "password",
+							"value": "snipher8431",
+							"type": "text",
+							"uuid": "440a269c-f0b5-4b35-95ee-c5f89f1a2f21"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/v1/auth/logout-all/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"logout-all",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://127.0.0.1:8000/api/v1/auth/register/",
+			"id": "98fca62a-4546-4ff8-9b21-42d632df0c75",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "first_name",
+							"value": "shapiro",
+							"type": "text",
+							"uuid": "9a0a6a50-d3bd-4ce8-b5b9-06ffb580d990"
+						},
+						{
+							"key": "last_name",
+							"value": "ben",
+							"type": "text",
+							"uuid": "23dac3c0-f292-4fe7-9ac3-8c96313fb3a6"
+						},
+						{
+							"key": "email",
+							"value": "benshapiro@gmail.com",
+							"type": "text",
+							"uuid": "67139ea1-6aa7-43fb-97cd-b39107edb529"
+						},
+						{
+							"key": "phone",
+							"value": "+254794539444",
+							"type": "text",
+							"uuid": "747ffb2a-3dcd-4173-bccd-2bd0ada0eae2"
+						},
+						{
+							"key": "user_type",
+							"value": "COLD_ROOM_OWNER",
+							"type": "text",
+							"uuid": "18cb1cc0-94b5-4516-86e3-6a08a72c91dd"
+						},
+						{
+							"key": "password",
+							"value": "snipher8431",
+							"type": "text",
+							"uuid": "5b0d28e5-66f2-468d-ba64-8b8459f5e714"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/v1/auth/register/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"register",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
