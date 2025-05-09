@@ -54,7 +54,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.github',
     'dj_rest_auth',
     'dj_rest_auth.registration',
-    'coldrooms',
+    'phonenumber_field',
 ]
 
 
@@ -179,6 +179,6 @@ REST_AUTH = {
     'LOGIN_SERIALIZER': 'users.serializers.UserLoginSerializer', 
 }
 
-# allauth settings
-ACCOUNT_LOGIN_METHODS = {'email'}
-ACCOUNT_EMAIL_VERIFICATION = 'optional'  # or 'mandatory'
+# Authentication Settings
+ACCOUNT_SIGNUP_FIELDS = ['email', 'password1', 'password2']
+ACCOUNT_USERNAME_REQUIRED = False  # Keep for backward compatibility

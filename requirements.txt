@@ -10,6 +10,7 @@ django-allauth==65.7.0
 django-debug-toolbar==5.1.0
 django-filter==25.1
 django-health-check==3.18.3
+django-phonenumber-field==8.1.0
 django-rest-knox==5.0.2
 djangorestframework==3.16.0
 drf-yasg==1.21.10
@@ -18,6 +19,7 @@ inflection==0.5.1
 Markdown==3.7
 oauthlib==3.2.2
 packaging==24.2
+phonenumbers==9.0.5
 pillow==11.2.1
 psycopg2-binary==2.9.10
 pycparser==2.22
