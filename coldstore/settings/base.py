@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',
+    'django.contrib.postgres',
     'django.contrib.gis',
     'rest_framework',
     'rest_framework.authtoken',  # Keep this for dj-rest-auth compatibility
@@ -55,6 +56,7 @@ INSTALLED_APPS = [
     'dj_rest_auth',
     'dj_rest_auth.registration',
     'phonenumber_field',
+    'coldrooms',
 ]
 
 
