@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',  # Keep this for dj-rest-auth compatibility
     'knox',
     'drf_yasg',
+    'rest_framework_gis',
     'users',
     "debug_toolbar",
     'health_check',
