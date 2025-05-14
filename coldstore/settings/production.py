@@ -3,7 +3,7 @@ from decouple import config
 
 DEBUG = True
 
-ALLOWED_HOSTS = ['https://coldstoreapi.onrender.com/']
+ALLOWED_HOSTS = ['coldstoreapi.onrender.com']
 
 DATABASES = {
     'default': {
