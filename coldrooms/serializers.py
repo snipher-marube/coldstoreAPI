@@ -35,4 +35,21 @@ class ColdRoomVerificationSerializer(serializers.ModelSerializer):
                   'reviewed_at', 'reviewed_by', 'submitted_at', 'verification_notes', 'documentation']
         read_only_fields = ['reviewed_at', 'submitted_at', 'reviewed_by']
 
+class ColdRoomsListSerializer(GeoFeatureModelSerializer):
+    latitude = serializers.FloatField(source='location.y', read_only=True)
+    longitude = serializers.FloatField(source='location.x', read_only=True)
+
+    class Meta:
+        model = ColdRoom
+        geo_field = 'location'
+        fields = ['id', 'name', 'location', 'latitude', 'longitude',
+                  'capacity', 'temp_min','temp_max', 'temp_unit',
+                  'availability_schedule', 'is_verified', 'created_at']
+        read_only_fields = ['is_verified', 'created_at']
+        extra_kwargs = {
+            'location': {'read_only': True},
+            'is_verified': {'read_only': True},
+            'created_at': {'read_only': True},
+        }
+
 

@@ -1,5 +1,5 @@
 from rest_framework import viewsets, permissions
-from .serializers import ColdRoomSerializer, ColdRoomVerificationSerializer
+from .serializers import ColdRoomSerializer, ColdRoomVerificationSerializer, ColdRoomsListSerializer
 from .models import ColdRoom, ColdRoomVerification
 
 class IsColdRoomOwner(permissions.BasePermission):
@@ -24,3 +24,10 @@ class ColdRoomVerificationViewset(viewsets.ModelViewSet):
 
     def get_queryset(self):
         return ColdRoomVerification.objects.select_related('cold_room', 'reviewed_by')
+
+class ColdRoomListViewSet(viewsets.ReadOnlyModelViewSet):
+    serializer_class = ColdRoomsListSerializer
+    permission_classes = [permissions.AllowAny]
+
+    def get_queryset(self):
+        return ColdRoom.objects.filter(is_verified=True)
