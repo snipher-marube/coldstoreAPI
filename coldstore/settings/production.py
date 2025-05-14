@@ -3,7 +3,7 @@ from decouple import config
 
 DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['.vercel.app']
 
 DATABASES = {
     'default': {
@@ -13,6 +13,11 @@ DATABASES = {
         'PASSWORD': config('DATABASE_PASSWORD'),
         'HOST': config('DATABASE_HOST'),
         'PORT': config('DATABASE_PORT'),
+        'CONN_MAX_AGE': 600,  # Keep the connection open for 10 minutes
+        'OPTIONS': {
+            'sslmode': 'require',  #
+            'options': '-c search_path=public,postgis',
+        },
     }
 }
 
