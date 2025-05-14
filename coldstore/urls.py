@@ -32,6 +32,7 @@ urlpatterns = [
     # cold room urls
     path('api/v1/', include('coldrooms.urls'))
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 if settings.DEBUG:
     import debug_toolbar
