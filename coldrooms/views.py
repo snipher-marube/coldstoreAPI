@@ -6,7 +6,7 @@ class IsColdRoomOwner(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
         return obj.owner == request.user
     
-class ColdRoomViewSet(viewsets):
+class ColdRoomViewSet(viewsets.ModelViewSet):
     serializer_class = ColdRoomSerializer
     permission_classes = [permissions.IsAuthenticated, IsColdRoomOwner]
 
@@ -18,7 +18,7 @@ class ColdRoomViewSet(viewsets):
         cold_room = serializer.save()
         ColdRoomVerification.objects.create(cold_room=cold_room)
     
-class ColdRoomVerificationViewset(viewsets):
+class ColdRoomVerificationViewset(viewsets.ModelViewSet):
     serializer_class = ColdRoomVerificationSerializer
     permission_classes = [permissions.IsAdminUser]
 
