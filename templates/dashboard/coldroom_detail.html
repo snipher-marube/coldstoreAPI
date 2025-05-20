@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ object.name }} Details{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+        <h2>{{ object.name }}</h2>
+        <div>
+            <a href="{% url 'coldroom-update' object.pk %}" class="btn btn-sm btn-outline-secondary">Edit</a>
+            {% if not object.is_verified and not object.verification %}
+                <a href="{% url 'coldroom-verify' object.pk %}" class="btn btn-sm btn-outline-info">Request Verification</a>
+            {% endif %}
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-6">
+                <h4>Basic Information</h4>
+                <p><strong>Owner:</strong> {{ object.owner.get_full_name }}</p>
+                <p><strong>Capacity:</strong> {{ object.capacity }} storage units</p>
+                <p><strong>Temperature Range:</strong> {{ object.temp_min }}°{{ object.temp_unit }} to {{ object.temp_max }}°{{ object.temp_unit }}</p>
+                <p><strong>Status:</strong> 
+                    <span class="badge bg-{% if object.is_verified %}success{% else %}warning{% endif %}">
+                        {% if object.is_verified %}Verified{% else %}Not Verified{% endif %}
+                    </span>
+                </p>
+                
+                {% if object.verification %}
+                <h4 class="mt-4">Verification Details</h4>
+                <p><strong>Status:</strong> {{ object.verification.get_status_display }}</p>
+                <p><strong>Submitted:</strong> {{ object.verification.submitted_at|date:"M d, Y H:i" }}</p>
+                {% if object.verification.reviewed_at %}
+                    <p><strong>Reviewed:</strong> {{ object.verification.reviewed_at|date:"M d, Y H:i" }}</p>
+                    <p><strong>Notes:</strong> {{ object.verification.Verification_notes }}</p>
+                {% endif %}
+                {% endif %}
+            </div>
+            <div class="col-md-6">
+                <div id="map" style="height: 300px;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const map = L.map('map').setView([{{ object.location.y }}, {{ object.location.x }}], 13);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+        L.marker([{{ object.location.y }}, {{ object.location.x }}]).addTo(map)
+            .bindPopup('{{ object.name }}');
+    });
+</script>
+{% endblock %}
+{% endblock %}

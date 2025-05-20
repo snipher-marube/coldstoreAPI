@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}My Cold Rooms{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>My Cold Rooms</h1>
+    <a href="{% url 'coldroom-create' %}" class="btn btn-primary">Add New Cold Room</a>
+</div>
+
+<div class="row">
+    {% for coldroom in coldrooms %}
+    <div class="col-md-6 col-lg-4 mb-4">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">{{ coldroom.name }}</h5>
+                <p class="card-text">
+                    <strong>Capacity:</strong> {{ coldroom.capacity }} units<br>
+                    <strong>Temperature Range:</strong> {{ coldroom.temp_min }}°{{ coldroom.temp_unit }} to {{ coldroom.temp_max }}°{{ coldroom.temp_unit }}<br>
+                    <strong>Status:</strong> 
+                    <span class="badge bg-{% if coldroom.is_verified %}success{% else %}warning{% endif %}">
+                        {% if coldroom.is_verified %}Verified{% else %}Not Verified{% endif %}
+                    </span>
+                </p>
+            </div>
+            <div class="card-footer bg-transparent">
+                <a href="{% url 'coldroom-detail' coldroom.pk %}" class="btn btn-sm btn-outline-primary">View</a>
+                <a href="{% url 'coldroom-update' coldroom.pk %}" class="btn btn-sm btn-outline-secondary">Edit</a>
+                {% if not coldroom.is_verified and not coldroom.verification %}
+                <a href="{% url 'coldroom-verify' coldroom.pk %}" class="btn btn-sm btn-outline-info">Request Verification</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="col-12">
+        <div class="alert alert-info">
+            You haven't registered any cold rooms yet. <a href="{% url 'coldroom-create' %}">Add your first cold room</a>.
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
