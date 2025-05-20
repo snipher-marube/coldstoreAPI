@@ -30,10 +30,7 @@ urlpatterns = [
     path('api/v1/auth/social/', include('allauth.socialaccount.urls')),
 
     # cold room urls
-    path('api/v1/', include('coldrooms.urls')),
-
-    # Dashboards
-    path('', include('dashboard.urls'))
+    path('api/v1/', include('coldrooms.urls')),   
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
