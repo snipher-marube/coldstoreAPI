@@ -71,3 +71,4 @@ class ColdRoomVerification(models.Model):
 
     def __str__(self):
         return f"Verification for {self.cold_room.name}- {self.status}"
+    
